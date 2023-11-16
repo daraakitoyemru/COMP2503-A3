@@ -78,6 +78,8 @@ public class A3 {
      */
   }
 
+  //we also need to add helper methods from previous assignments
+
   /**
    * print the results
    */
