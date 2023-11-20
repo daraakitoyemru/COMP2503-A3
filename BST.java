@@ -69,6 +69,47 @@ public class BST<T extends Comparable<T>> {
 
   private void add(BSTNode n, BSTNode root) {}
 
+  public void delete(T data) {
+    BSTNode n = new BSTNode(data);
+    delete(root, n);
+    size--;
+  }
+
+  private BSTNode delete(BSTNode root, BSTNode n) {
+    T data = find(n.getData(), root);
+    int c = n.compareTo(root);
+    if (root == null) {
+      return null;
+    }
+    if (data != null) {
+      if (c < 0) {
+        root.setLeft(delete(root.getLeft(), n));
+      } else if (c > 0) {
+        root.setRight(delete(root.getRight(), n));
+      } else {
+        if (root.getLeft() == null) {
+          return root.getRight();
+        } else if (root.getRight() == null) {
+          return root.getLeft();
+        }
+        //in-order successor
+        root.setData(findMin(root.getRight()));
+        root.setRight(delete(root.getRight(), n));
+      }
+    }
+
+    return root;
+  }
+
+  private T findMin(BSTNode root) {
+    T minVal = root.getData();
+    while (root.getLeft() != null) {
+      minVal = root.getLeft().getData();
+      root = root.getLeft();
+    }
+    return minVal;
+  }
+
   /* Implement a height method. */
   private int height(BSTNode r) {
     int h = -1;
