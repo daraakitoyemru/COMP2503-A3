@@ -80,6 +80,11 @@ public class A3 {
 
   //we also need to add helper methods from previous assignments
 
+
+  private int getOptimalHeight(BST<Avenger> list) {
+    return (int) (Math.log(list.size()) / Math.log(2));
+  }
+
   /**
    * print the results
    */

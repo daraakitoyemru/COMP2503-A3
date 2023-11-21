@@ -1,3 +1,4 @@
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -70,6 +71,7 @@ public class BST<T extends Comparable<T>> implements Iterable<T> {
 
   private BSTNode root;
   private int size;
+  private Comparator<T> comparator;
   private Queue<T> queue = new LinkedList<T>();
 
   private final int INORDER = 0;
@@ -79,6 +81,13 @@ public class BST<T extends Comparable<T>> implements Iterable<T> {
 
   public BST() {
     root = null;
+    comparator = null;
+    size = 0;
+  }
+
+  public BST(Comparator<T> comparator) {
+    root = null;
+    this.comparator = comparator;
     size = 0;
   }
 
@@ -111,7 +120,41 @@ public class BST<T extends Comparable<T>> implements Iterable<T> {
     return find(d, root);
   }
 
-  private void add(BSTNode n, BSTNode root) {}
+  private void add(BSTNode root, BSTNode n) {
+    if (root == null) {
+      return;
+    }
+    int result = compare(n.getData(), root.getData());
+    if (result < 0) {
+      if (root.getLeft() == null) {
+        root.setLeft(n);
+        size++;
+      }
+      else {
+        add(root.getLeft(), n);
+      }
+    }
+    else {
+      if (result > 0) {
+        if (root.getRight() == null) {
+          root.setRight(n);
+          size++;
+        }
+        else {
+          add(root.getRight(), n);
+        }
+      }
+    }
+  }
+
+  private int compare(T t1, T t2) {
+    if (comparator != null) {
+      return comparator.compare(t1, t2);
+    }
+    else {
+      return t1.compareTo(t2);
+    }
+  }
 
   /**
    * Add element d to the tree.
@@ -170,7 +213,24 @@ public class BST<T extends Comparable<T>> implements Iterable<T> {
   /* Implement a height method. */
   private int height(BSTNode r) {
     int h = -1;
-    // TODO
+
+    if (r == null) {
+      return h;
+    }
+    else if (r.isLeaf()){
+      h = 0;
+    }
+    else {
+      int leftHeight = 0;
+      int rightHeight = 0;
+      if (r.getLeft() != null) {
+        leftHeight = height(r.getLeft());
+      }
+      if (r.getRight() != null) {
+        rightHeight = height(r.getRight());
+      }
+      h = Math.max(leftHeight, rightHeight) + 1;
+    }
     return h;
   }
 
