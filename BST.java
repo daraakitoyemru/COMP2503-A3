@@ -170,11 +170,11 @@ public class BST<T extends Comparable<T>> implements Iterable<T> {
       BSTNode n = new BSTNode(d);
       if (root == null) {
          root = n;
+         size++;
       }
       else {
          add(root, n);
       }
-      size++;
    }
 
    public void delete(T data) {
