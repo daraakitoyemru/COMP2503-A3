@@ -1,3 +1,4 @@
+import java.util.Iterator;
 import java.util.Scanner;
 
 /**
@@ -32,13 +33,17 @@ public class A3 {
   private int totalwordcount = 0;
   private Scanner input = new Scanner(System.in);
 
-  //   private BST<Avenger> alphabticalBST = new BST<>();
-  //   private BST<Avenger> mentionBST =
-  //         new BST<Avenger>(new AvengerComparatorMentionOrder());
-  //   private BST<Avenger> mostPopularAvengerBST =
-  //         new BST<Avenger>(new AvengerComparatorFreqDesc());
-  //   private BST<Avenger> mostPopularPerformerBST =
-  //         new BST<Avenger>(new AvengerPerformerComparatorFreqDesc());
+  private BST<Avenger> alphabticalBST = new BST<>();
+  Iterator<Avenger> BSTIterator = alphabticalBST.iterator();
+
+  // private BST<Avenger> mentionBST = new BST<Avenger>(new AvengerComparatorMentionOrder());
+
+  private BST<Avenger> mostPopularAvengerBST = new BST<Avenger>(
+    new AvengerComparatorFreqDesc()
+  );
+  private BST<Avenger> mostPopularPerformerBST = new BST<Avenger>(
+    new AvengerPerformerComparatorFreqDesc()
+  );
 
   public static void main(String[] args) {
     A3 a3 = new A3();
@@ -59,6 +64,15 @@ public class A3 {
      *   use the tree iterator to do an in-order traversal of the alphabetical tree,
      *   and add avengers to the other trees with alternative ordering
      */
+    for (Avenger a : alphabticalBST) {
+      if (
+        a.getHeroName().equals("barton") || a.getHeroName().equals("banner")
+      ) {
+        alphabticalBST.delete(a);
+      }
+      mostPopularPerformerBST.add(a);
+      mostPopularAvengerBST.add(a);
+    }
   }
 
   /**
@@ -84,6 +98,27 @@ public class A3 {
      * You need to think carefully about how you are keeping track of the mention
      * order by setting the mention order for each new avenger.
      */
+
+    while (input.hasNext()) {
+      String word = cleanWord(input.next());
+
+      if (word.length() > 0) {
+        totalwordcount++;
+
+        Avenger a = createNewAvenger(word);
+
+        if (a != null) {
+          Avenger mentioned = alphabticalBST.find(a);
+
+          if (mentioned == null) {
+            alphabticalBST.add(a);
+            a.setMention(word);
+          } else if (mentioned != null) {
+            mentioned.setMention(word);
+          }
+        }
+      }
+    }
   }
 
   //we also need to add helper methods from previous assignments
@@ -135,7 +170,9 @@ public class A3 {
     System.out.println("Total number of words: " + totalwordcount);
     // TODO: Print the number of mentioned avengers after deleting "barton" and
     //  "banner".
-    //System.out.println("Number of Avengers Mentioned: " + ??);
+    System.out.println(
+      "Number of Avengers Mentioned: " + alphabticalBST.size()
+    );
     System.out.println();
 
     System.out.println(
@@ -148,6 +185,7 @@ public class A3 {
     System.out.println("Top " + topN + " most popular avengers:");
     // TODO: Print the most popular avengers, see the instructions for tie breaking
     // Make sure you follow the formatting example in the sample output
+    mostPopularAvengerBST.traverseRight();
     System.out.println();
 
     System.out.println("Top " + topN + " most popular performers:");
@@ -157,6 +195,10 @@ public class A3 {
 
     System.out.println("All mentioned avengers in alphabetical order:");
     // TODO: Print the list of avengers in alphabetical order
+    for (Avenger a : alphabticalBST) {
+      System.out.println(a);
+    }
+
     System.out.println();
     // TODO: Print the actual height and the optimal height for each of the four trees.
     //      System.out.println(

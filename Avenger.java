@@ -17,7 +17,7 @@ public class Avenger implements Comparable<Avenger> {
    * @param heroAlias - The avenger's hero name.
    * @param heroName  - The avenger's real last name.
    * @param performer - The last name of the performer who played the avenger.
- * @param mentionIndex 
+   * @param mentionIndex
    */
   public Avenger(String heroAlias, String heroName, String performer) {
     this.heroAlias = heroAlias;
@@ -52,9 +52,9 @@ public class Avenger implements Comparable<Avenger> {
   public int getPerformerFreq() {
     return performerFreq;
   }
-  
+
   public int getMentionIndex() {
-	    return mentionIndex;
+    return mentionIndex;
   }
 
   /**
@@ -101,10 +101,9 @@ public class Avenger implements Comparable<Avenger> {
     }
     return false;
   }
-  
+
   // comparator for sorting by mention index
   public static Comparator<Avenger> MentionIndexComparator = new Comparator<Avenger>() {
-	  
     @Override
     public int compare(Avenger a1, Avenger a2) {
       return Integer.compare(a1.mentionIndex, a2.mentionIndex);
