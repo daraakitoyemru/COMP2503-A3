@@ -26,7 +26,7 @@ public class Avenger implements Comparable<Avenger> {
     this.nameFreq = 0;
     this.aliasFreq = 0;
     this.performerFreq = 0;
-    this.mentionIndex = mentionIndex;
+    this.mentionIndex = 0;
   }
 
   public String getHeroAlias() {
@@ -55,6 +55,7 @@ public class Avenger implements Comparable<Avenger> {
 
   public int getMentionIndex() {
     return mentionIndex;
+
   }
 
   /**
@@ -70,6 +71,10 @@ public class Avenger implements Comparable<Avenger> {
     } else if (this.performer.equals(word)) {
       performerFreq++;
     }
+  }
+  
+  public void setMentionIndex(int mentionIndex) {
+	  this.mentionIndex = mentionIndex;
   }
 
   /**
@@ -133,4 +138,5 @@ public class Avenger implements Comparable<Avenger> {
       " time(s)"
     );
   }
+
 }

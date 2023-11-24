@@ -4,3 +4,8 @@
 /BST$BSTNode.class
 /BST.class
 /Avenger$1.class
+/AvengerComparatorFreqDesc.class
+/AvengerPerformerComparatorFreqDesc.class
+/AvengerComparatorMentionOrder.class
+/mostPopularBST.class
+/leastPopularBST.class
