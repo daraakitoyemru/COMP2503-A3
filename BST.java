@@ -256,19 +256,13 @@ public class BST<T extends Comparable<T>> implements Iterable<T> {
     }
     switch (traversalType) {
       case INORDER:
-        traverse(root.getLeft(), traversalType);
-        visit(root);
-        traverse(root.getRight(), traversalType);
+        inOrder(root);
         break;
       case PREORDER:
-        visit(root);
-        traverse(root.getLeft(), traversalType);
-        traverse(root.getRight(), traversalType);
+        preOrder(root);
         break;
       case POSTORDER:
-        traverse(root.getLeft(), traversalType);
-        traverse(root.getRight(), traversalType);
-        visit(root);
+        postOrder(root);
         break;
       case LEVELORDER:
         levelOrderTraversal(root);
@@ -283,6 +277,40 @@ public class BST<T extends Comparable<T>> implements Iterable<T> {
     if (root != null) {
       traverseRight(root.getRight());
       System.out.println(root.getData());
+    }
+  }
+
+  private void inOrder(BSTNode r) {
+    if (r == null) {
+      return;
+    }
+    else {
+      inOrder(r.getLeft());
+      visit(r);
+      inOrder(r.getRight());
+    }
+  }
+
+  private void preOrder(BSTNode r) {
+    if (r == null) {
+      return;
+    }
+    else {
+      visit(r);
+      preOrder(r.getLeft());
+      preOrder(r.getRight());
+    }
+  }
+
+
+  private void postOrder(BSTNode r) {
+    if (r == null) {
+      return;
+    }
+    else {
+      postOrder(r.getLeft());
+      postOrder(r.getRight());
+      visit(r);
     }
   }
 

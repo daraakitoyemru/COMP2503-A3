@@ -35,11 +35,11 @@ public class A3 {
    private Scanner input = new Scanner(System.in);
    private int mentionIndex;
 
-      private BST<Avenger> alphabticalBST = new BST<>();
-      private BST<Avenger> mentionBST = new BST<Avenger>(new AvengerComparatorMentionOrder());
-      private BST<Avenger> mostPopularAvengerBST = new BST<Avenger>(new AvengerComparatorFreqDesc());
-      private BST<Avenger> mostPopularPerformerBST = new BST<Avenger>(new AvengerPerformerComparatorFreqDesc());
-      Iterator<Avenger> BSTIterator = alphabticalBST.iterator();
+   private BST<Avenger> alphabticalBST = new BST<>();
+   private BST<Avenger> mentionBST = new BST<Avenger>(new AvengerComparatorMentionOrder());
+   private BST<Avenger> mostPopularAvengerBST = new BST<Avenger>(new AvengerComparatorFreqDesc());
+   private BST<Avenger> mostPopularPerformerBST = new BST<Avenger>(new AvengerPerformerComparatorFreqDesc());
+
 
 
   public static void main(String[] args) {
@@ -99,31 +99,35 @@ public class A3 {
        * You need to think carefully about how you are keeping track of the mention
        * order by setting the mention order for each new avenger.
        */
-	   int mentionIndex = 0;
+	   mentionIndex = 0;
 	   while (input.hasNext()) {
-	         String word = cleanWord(input.next());
+         String word = cleanWord(input.next());
 
-	         if (word.isEmpty()) {
-	            continue;
-	         }
+         if (word.isEmpty()) {
+            continue;
+         }
 
-	         totalwordcount++;
+         totalwordcount++;
 	         
-	         Avenger current = findAvengerInRoster(word);
-	         if (current == null) {
-	            continue;
-	         }
-	         
-	         Avenger avengerInTree = alphabticalBST.find(current);
-	         if (avengerInTree == null) {
-	        	 current.setMention(word);
- 	        	 current.setMentionIndex(++mentionIndex);
-	        	 // Adding new Avenger to the BST
-	        	 alphabticalBST.add(current); 
-	        	 } else {
-	        		 avengerInTree.setMention(word);
-	        		 }
-	         }
+         Avenger current = findAvengerInRoster(word);
+         if (current == null) {
+            continue;
+         }
+
+         Avenger avengerInTree = alphabticalBST.find(current);
+
+         if (avengerInTree == null) {
+
+          // Adding new Avenger to the BST
+
+            alphabticalBST.add(current);
+          current.setMentionIndex(++mentionIndex);
+          avengerInTree = current;
+          }
+
+         avengerInTree.setMention(word);
+
+         }
 	   }
 
    private Avenger findAvengerInRoster(String word) {
@@ -138,7 +142,7 @@ public class A3 {
   //we also need to add helper methods from previous assignments
 
   private int getOptimalHeight(BST<Avenger> list) {
-    return (int) (Math.log(list.size()) / Math.log(2));
+    return (int) Math.floor((Math.log(list.size()) / Math.log(2)));
   }
 
   private Avenger createNewAvenger(String word) {
