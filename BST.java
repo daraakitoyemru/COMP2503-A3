@@ -51,7 +51,7 @@ public class BST<T extends Comparable<T>> implements Iterable<T> {
     }
   }
 
-  private class BSTIteratorInorder implements Iterator {
+  private class BSTIteratorInorder implements Iterator<T> {
 
     public BSTIteratorInorder() {
       queue.clear();
@@ -64,15 +64,16 @@ public class BST<T extends Comparable<T>> implements Iterable<T> {
     }
 
     @Override
-    public Object next() {
+    public T next() {
       return queue.remove();
     }
+
   }
 
   private BSTNode root;
   private int size;
   private Comparator<T> comparator;
-  private Queue<T> queue = new LinkedList<T>();
+  private Queue<T> queue = new LinkedList<>();
 
   private final int INORDER = 0;
   private final int PREORDER = 1;
@@ -91,33 +92,17 @@ public class BST<T extends Comparable<T>> implements Iterable<T> {
     size = 0;
   }
 
-  /*
-   * TODO:
-   *    add copy constructors
-   *    add traversal methods
-   *    add any help methods
-   *    make sure BST is iterable
-   */
-
-  private T find(T d, BSTNode root) {
-    if (root == null) {
-      return null;
-    }
-    int c = d.compareTo(root.getData());
-    if (c == 0) {
-      return root.getData();
-    } else if (c < 0) {
-      return find(d, root.getLeft());
-    } else {
-      return find(d, root.getRight());
-    }
-  }
-
   /**
-   * Return true if element d is present in the tree.
+   * Add element d to the tree.
    */
-  public T find(T d) {
-    return find(d, root);
+  public void add(T d) {
+    BSTNode n = new BSTNode(d);
+    if (root == null) {
+      root = n;
+      size++;
+    } else {
+      add(root, n);
+    }
   }
 
   private void add(BSTNode root, BSTNode n) {
@@ -146,27 +131,6 @@ public class BST<T extends Comparable<T>> implements Iterable<T> {
       } else {
         add(root.getRight(), n);
       }
-    }
-  }
-
-  private int compare(T t1, T t2) {
-    if (comparator != null) {
-      return comparator.compare(t1, t2);
-    } else {
-      return t1.compareTo(t2);
-    }
-  }
-
-  /**
-   * Add element d to the tree.
-   */
-  public void add(T d) {
-    BSTNode n = new BSTNode(d);
-    if (root == null) {
-      root = n;
-      size++;
-    } else {
-      add(root, n);
     }
   }
 
@@ -202,6 +166,27 @@ public class BST<T extends Comparable<T>> implements Iterable<T> {
     return root;
   }
 
+  /**
+   * Return true if element d is present in the tree.
+   */
+  public T find(T d) {
+    return find(d, root);
+  }
+
+  private T find(T d, BSTNode root) {
+    if (root == null) {
+      return null;
+    }
+    int c = d.compareTo(root.getData());
+    if (c == 0) {
+      return root.getData();
+    } else if (c < 0) {
+      return find(d, root.getLeft());
+    } else {
+      return find(d, root.getRight());
+    }
+  }
+
   private T findMin(BSTNode root) {
     T minVal = root.getData();
     while (root.getLeft() != null) {
@@ -212,6 +197,14 @@ public class BST<T extends Comparable<T>> implements Iterable<T> {
   }
 
   /* Implement a height method. */
+
+  /**
+   * Return the height of the tree.
+   */
+  public int height() {
+    return height(root);
+  }
+
   private int height(BSTNode r) {
     int h = -1;
 
@@ -233,13 +226,6 @@ public class BST<T extends Comparable<T>> implements Iterable<T> {
     return h;
   }
 
-  /**
-   * Return the height of the tree.
-   */
-  public int height() {
-    return height(root);
-  }
-
   private void visit(BSTNode r) {
     if (r != null) {
       queue.add(r.getData());
@@ -256,60 +242,49 @@ public class BST<T extends Comparable<T>> implements Iterable<T> {
     }
     switch (traversalType) {
       case INORDER:
-        inOrder(root);
+        inOrderTraversal(root);
         break;
       case PREORDER:
-        preOrder(root);
+        preOrderTraversal(root);
         break;
       case POSTORDER:
-        postOrder(root);
+        postOrderTraversal(root);
         break;
       case LEVELORDER:
         levelOrderTraversal(root);
     }
   }
 
-  public void traverseRight() {
-    traverseRight(root);
-  }
-
-  private void traverseRight(BSTNode root) {
-    if (root != null) {
-      traverseRight(root.getRight());
-      System.out.println(root.getData());
-    }
-  }
-
-  private void inOrder(BSTNode r) {
+  private void inOrderTraversal(BSTNode r) {
     if (r == null) {
       return;
     }
     else {
-      inOrder(r.getLeft());
+      inOrderTraversal(r.getLeft());
       visit(r);
-      inOrder(r.getRight());
+      inOrderTraversal(r.getRight());
     }
   }
 
-  private void preOrder(BSTNode r) {
+  private void preOrderTraversal(BSTNode r) {
     if (r == null) {
       return;
     }
     else {
       visit(r);
-      preOrder(r.getLeft());
-      preOrder(r.getRight());
+      preOrderTraversal(r.getLeft());
+      preOrderTraversal(r.getRight());
     }
   }
 
 
-  private void postOrder(BSTNode r) {
+  private void postOrderTraversal(BSTNode r) {
     if (r == null) {
       return;
     }
     else {
-      postOrder(r.getLeft());
-      postOrder(r.getRight());
+      postOrderTraversal(r.getLeft());
+      postOrderTraversal(r.getRight());
       visit(r);
     }
   }
@@ -342,6 +317,13 @@ public class BST<T extends Comparable<T>> implements Iterable<T> {
     return size;
   }
 
+  private int compare(T t1, T t2) {
+    if (comparator != null) {
+      return comparator.compare(t1, t2);
+    } else {
+      return t1.compareTo(t2);
+    }
+  }
   @Override
   public Iterator<T> iterator() {
     return new BSTIteratorInorder();
