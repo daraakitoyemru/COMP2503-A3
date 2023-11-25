@@ -84,6 +84,12 @@ public class Avenger implements Comparable<Avenger> {
     return nameFreq + aliasFreq + performerFreq;
   }
 
+  /**
+   * Compares heroAliases to determine the natural ordering 
+   * 
+   * @param o - the Avenger object to compare against the current instance
+   * @return -1 is o is null  or the compareTo result
+   * */
   @Override
   public int compareTo(Avenger o) {
     if (o == null) {
@@ -92,6 +98,12 @@ public class Avenger implements Comparable<Avenger> {
     return this.heroAlias.compareTo(o.heroAlias);
   }
 
+  /**
+   * Determines whether  given object is equal to the current Avenger
+   * 
+   * @param other - the object to compare
+   * @return - true if equal
+   * */
   @Override
   public boolean equals(Object o) {
     if (o == null) {

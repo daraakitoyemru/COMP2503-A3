@@ -42,17 +42,28 @@ public class A3 {
    private BST<Avenger> mostPopularPerformerBST =
          new BST<Avenger>(new AvengerPerformerComparatorFreqDesc());
 
+/**
+ * Runs the program
+ * */
    public static void main(String[] args) {
       A3 a3 = new A3();
       a3.run();
    }
 
+   /**
+    * Method to run the program
+    * */
    public void run() {
       readInput();
       createdAlternativeOrderBSTs();
       printResults();
    }
 
+   /**
+    * Creates alternative order BSTs based on different criteria.
+    * This method iterates through the alphabetical BST, modifies it, and also adds Avengers to other BSTs
+    * based on different sorting.
+    */
    private void createdAlternativeOrderBSTs() {
 
       for (Avenger avenger : alphabticalBST) {
@@ -68,8 +79,10 @@ public class A3 {
    }
 
    /**
-    * read the input stream and keep track how many times avengers are mentioned by
-    * alias or last name or performer name.
+    * Reads the input stream and keeps track of how many times Avengers are mentioned by alias,
+    * last name, or performer name.
+    * This method processes each word from the input, cleans it, and updates the alphabeticalBST
+    * if the word matches an Avenger's details.
     */
    private void readInput() {
 
@@ -102,6 +115,14 @@ public class A3 {
       }
    }
 
+   /**
+    * Finds an Avenger in the avengerRoster based on a given word.
+    * This method checks if the provided word matches any Avenger's alias, last name, or performer name
+    * in the avengerRoster.
+    *
+    * @param word The word that is going to be matched with Avenger details.
+    * @return An Avenger object if a match is found; null otherwise.
+    */
    private Avenger findAvengerInRoster(String word) {
       for (String[] avenger : avengerRoster) {
          if (avenger[0].equals(word) || avenger[1].equals(word) || avenger[2].equals(
@@ -112,12 +133,23 @@ public class A3 {
       return null;
    }
 
-   //we also need to add helper methods from previous assignments
-
+  /**
+    * Calculates the optimal height of BST for a given list of elements.
+    *
+    * @param The BST
+    * @return The optimal height of the BST.
+    */
    private int getOptimalHeight(BST<Avenger> list) {
       return (int) Math.floor((Math.log(list.size()) / Math.log(2)));
    }
 
+   /**
+    * Cleans a given string by removing all non-alphabetic characters and converting it to lower case.
+    * If an apostrophe is present, only the part of the string before the apostrophe is considered.
+    *
+    * @param next The string to be cleaned.
+    * @return The cleaned string.
+    */
    private String cleanWord(String next) {
       String ret;
       int inx = next.indexOf('\'');
@@ -132,12 +164,24 @@ public class A3 {
       return ret;
    }
 
+   /**
+    * Prints each element in BST of Avenger objects.
+    * This method iterates through the BST and prints each Avenger object.
+    *
+    * @param list The BST of Avenger objects to be printed.
+    */
    private void printList(BST<Avenger> list) {
       for (Avenger hero: list) {
          System.out.println(hero);
       }
    }
 
+   /**
+    * Prints the top 'N' elements from a BST of Avenger objects.
+    * The method iterates through the BST and stops after printing 'topN' elements.
+    *
+    * @param list The BST of Avenger objects from which the top elements are to be printed.
+    */
    private void topList(BST<Avenger> list) {
       int heroCount = 0;
       for (Avenger hero: list) {
@@ -149,7 +193,10 @@ public class A3 {
    }
 
    /**
-    * print the results
+    * Prints each element in a binary search tree (BST) of Avenger objects.
+    * This method iterates through the BST and prints each Avenger object.
+    *
+    * @param list The BST of Avenger objects to be printed.
     */
    private void printResults() {
       // Prints the total number of words
