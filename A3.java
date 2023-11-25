@@ -144,6 +144,9 @@ public class A3 {
     * @return The optimal height of the BST.
     */
    private int getOptimalHeight(BST<Avenger> list) {
+      if (list.size() <= 1) {
+         return list.height();
+      }
       return (int) Math.floor((Math.log(list.size()) / Math.log(2)));
    }
 
